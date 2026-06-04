@@ -8,6 +8,10 @@
     version : uint32     = 1
     node_count : uint32 
     
+    [ BRUSHES ]
+    min : float[3]
+    max : float[3]
+    
     [ NODES ]
     normal : float[3]
     distance : float
@@ -24,8 +28,14 @@
 typedef struct WrldHeader {
     char    identifier[4];
     uint32_t      version;
+    uint32_t  brush_count;
     uint32_t   node_count;
 } WrldHeader;
+
+typedef struct WrldBrush {
+    float min[3];
+    float max[3];
+} WrldBrush;
 
 typedef struct WrldNode {
     float   normal[3];
@@ -39,6 +49,6 @@ typedef struct WrldNode {
 
 #pragma pack(pop)
 
-int wrld_write(const char *path, const Tree *tree);
+int wrld_write(const char *path, const Tree *tree, Brush *brushes, int brush_count);
 
-WrldNode *wrld_read(const char *path, uint32_t *out_count);
+WrldNode *wrld_read(const char *path, uint32_t *out_node_count, WrldBrush **out_brushes, uint32_t *out_brush_count);
